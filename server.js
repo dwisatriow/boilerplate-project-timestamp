@@ -29,9 +29,16 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-// your first API endpoint...
-app.get("/api/hello", function (req, res) {
-  res.json({ greeting: "hello API" });
+// /api endpoint return current time in json
+app.get("/api", function (req, res) {
+  const now = new Date();
+  const unixTime = now.valueOf();
+  const utcTime = now.toUTCString();
+
+  res.json({
+    unix: unixTime,
+    utc: utcTime,
+  });
 });
 
 // listen for requests :)
