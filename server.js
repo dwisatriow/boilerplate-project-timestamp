@@ -29,7 +29,7 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-// /api endpoint return current time in json
+// api endpoint return current time in json
 app.get("/api", function (req, res) {
   const now = new Date();
   const unixTime = now.valueOf();
@@ -39,6 +39,30 @@ app.get("/api", function (req, res) {
     unix: unixTime,
     utc: utcTime,
   });
+});
+
+// timestamp endpoint return parsed timestamp from unix to utc, or vice versa
+app.get("/api/:timestamp", function (req, res) {
+  const { timestamp } = req.params;
+  let date;
+  if (isNaN(timestamp)) {
+    date = new Date(timestamp);
+  } else {
+    date = new Date(Number(timestamp));
+  }
+
+  if (isNaN(date.valueOf())) {
+    res.json({
+      error: "Invalid Date",
+    });
+  } else {
+    const unixTime = date.valueOf();
+    const utcTime = date.toUTCString();
+    res.json({
+      unix: unixTime,
+      utc: utcTime,
+    });
+  }
 });
 
 // listen for requests :)
