@@ -44,6 +44,8 @@ app.get("/api", function (req, res) {
 // timestamp endpoint return parsed timestamp from unix to utc, or vice versa
 app.get("/api/:timestamp", function (req, res) {
   const { timestamp } = req.params;
+
+  // Initiate date object based on passed parameter
   let date;
   if (isNaN(timestamp)) {
     date = new Date(timestamp);
@@ -51,6 +53,7 @@ app.get("/api/:timestamp", function (req, res) {
     date = new Date(Number(timestamp));
   }
 
+  // Response valid date with parsed timestamp otherwise return invalid date error
   if (isNaN(date.valueOf())) {
     res.json({
       error: "Invalid Date",
